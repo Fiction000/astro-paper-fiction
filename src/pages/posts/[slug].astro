@@ -6,16 +6,40 @@ import getSortedPosts from "@utils/getSortedPosts";
 import getPageNumbers from "@utils/getPageNumbers";
 import slugify from "@utils/slugify";
 import { SITE } from "@config";
-
-export interface Props {
-  post: CollectionEntry<"blog">;
-}
+import { contentfulClient } from "../../lib/contentful";
+import type { BlogPost } from "../../lib/contentful";
 
 export async function getStaticPaths() {
-  const posts = await getCollection("blog", ({ data }) => !data.draft);
+  const entries = await contentfulClient.getEntries<BlogPost>({
+    content_type: "blogPost",
+  });
+
+  const posts = entries.items.map(item => {
+    const {
+      blogTitle,
+      author,
+      publishedDate,
+      description,
+      content,
+      slug,
+      ogImage,
+      tags,
+    } = item.fields;
+    return {
+      title: blogTitle,
+      author,
+      postSlug: slug,
+      description,
+      ogImage,
+      content,
+      pubDatetime: new Date(publishedDate),
+      tags,
+    };
+  });
+  // const posts = await getCollection("blog", ({ data }) => !data.draft);
 
   const postResult = posts.map(post => ({
-    params: { slug: slugify(post.data) },
+    params: { slug: post.postSlug },
     props: { post },
   }));
 
@@ -27,9 +51,37 @@ export async function getStaticPaths() {
 }
 
 const { slug } = Astro.params;
-const { post } = Astro.props;
+let post;
 
-const posts = await getCollection("blog");
+const entries = await contentfulClient.getEntries<BlogPost>({
+  content_type: "blogPost",
+  "fields.slug": slug,
+});
+
+const posts = entries.items.map(item => {
+  const {
+    blogTitle,
+    author,
+    publishedDate,
+    description,
+    blogContents,
+    slug,
+    ogImage,
+    tags,
+  } = item.fields;
+  return {
+    title: blogTitle,
+    author,
+    postSlug: slug,
+    description,
+    ogImage,
+    content: blogContents,
+    pubDatetime: new Date(publishedDate),
+    tags,
+  };
+});
+
+post = posts[0];
 
 const sortedPosts = getSortedPosts(posts);
 

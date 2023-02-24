@@ -6,7 +6,23 @@ import getPageNumbers from "@utils/getPageNumbers";
 
 import { getCollection } from "astro:content";
 
-const posts = await getCollection("blog");
+import { contentfulClient } from "../../lib/contentful";
+import type { BlogPost } from "../../lib/contentful";
+
+const entries = await contentfulClient.getEntries<BlogPost>({
+  content_type: "blogPost",
+});
+
+const posts = entries.items.map(item => {
+  const { blogTitle, publishedDate, description, slug, tags } = item.fields;
+  return {
+    title: blogTitle,
+    postSlug: slug,
+    description,
+    pubDatetime: new Date(publishedDate),
+    tags,
+  };
+});
 
 const sortedPosts = getSortedPosts(posts);
 

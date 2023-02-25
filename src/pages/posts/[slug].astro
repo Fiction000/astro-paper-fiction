@@ -20,7 +20,7 @@ export async function getStaticPaths() {
       author,
       publishedDate,
       description,
-      content,
+      blogContents,
       slug,
       ogImage,
       tags,
@@ -31,7 +31,7 @@ export async function getStaticPaths() {
       postSlug: slug,
       description,
       ogImage,
-      content,
+      content: blogContents,
       pubDatetime: new Date(publishedDate),
       tags,
     };

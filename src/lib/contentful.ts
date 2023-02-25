@@ -4,6 +4,7 @@ import type { Document } from "@contentful/rich-text-types";
 export interface BlogPost {
   blogTitle: string;
   author: string;
+  featured: boolean;
   publishedDate: string;
   description: string;
   blogContents: string;

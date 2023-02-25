@@ -6,21 +6,27 @@ import Main from "@layouts/Main.astro";
 import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
 import Search from "@components/Search";
+import { contentfulClient } from "../lib/contentful";
+import type { BlogPost } from "../lib/contentful";
 
-// Retrieve all articles
-const posts = await getCollection("blog", ({ data }) => !data.draft);
+const entries = await contentfulClient.getEntries<BlogPost>({
+  content_type: "blogPost",
+});
 
-// List of items to search in
-const searchList = posts.map(({ data }) => ({
-  title: data.title,
-  description: data.description,
-  data,
-}));
+const searchList = entries.items.map(item => {
+  const { blogTitle, blogContents, description, slug } = item.fields;
+  return {
+    title: blogTitle,
+    postSlug: slug,
+    description,
+    contents: blogContents,
+  };
+});
 ---
 
 <Layout title={`Search | ${SITE.title}`}>
   <Header activeNav="search" />
-  <Main pageTitle="Search" pageDesc="Search any article ...">
+  <Main pageTitle="検索" pageDesc="記事を探す">
     <Search client:load searchList={searchList} />
   </Main>
   <Footer />

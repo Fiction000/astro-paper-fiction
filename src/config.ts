@@ -4,7 +4,7 @@ export const SITE = {
   website: "https://www.tatsukblog.com/",
   author: "Tatsuhiko Kato",
   desc: "Blog of Tatsuhiko Kato",
-  title: "Blue Moon",
+  title: "Fiction",
   ogImage: "astropaper-og.jpg",
   lightAndDarkMode: true,
   postPerPage: 3,

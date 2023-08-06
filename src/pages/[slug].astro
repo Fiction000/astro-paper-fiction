@@ -6,8 +6,8 @@ import getSortedPosts from "@utils/getSortedPosts";
 import getPageNumbers from "@utils/getPageNumbers";
 import slugify from "@utils/slugify";
 import { SITE } from "@config";
-import { contentfulClient } from "../../lib/contentful";
-import type { BlogPost } from "../../lib/contentful";
+import { contentfulClient } from "../lib/contentful";
+import type { BlogPost } from "../lib/contentful";
 
 export async function getStaticPaths() {
   const entries = await contentfulClient.getEntries<BlogPost>({

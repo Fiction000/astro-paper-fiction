@@ -1,9 +1,9 @@
 import type { SocialObjects } from "./types";
 
 export const SITE = {
-  website: "https://www.tatsukblog.com/",
+  website: "https://blog.katot.dev/",
   author: "Tatsuhiko Kato",
-  desc: "Blog of Tatsuhiko Kato",
+  desc: "ウェブ・デシタルマーケ界隈で働く人のブログ。トピックは書評・映画評・SEO・広告・ウェブ開発など。",
   title: "Fiction",
   ogImage: "astropaper-og.jpg",
   lightAndDarkMode: true,
@@ -136,6 +136,6 @@ export const SOCIALS: SocialObjects = [
     name: "Mastodon",
     href: "https://mstdn.jp/@fiction000",
     linkTitle: `Mastodon`,
-    active: true,
+    active: false,
   },
 ];

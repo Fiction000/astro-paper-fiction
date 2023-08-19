@@ -1,13 +1,15 @@
 import { defineConfig } from "astro/config";
+import markdownIntegration from "@astropub/md";
 import tailwind from "@astrojs/tailwind";
 import react from "@astrojs/react";
 import remarkToc from "remark-toc";
 import remarkCollapse from "remark-collapse";
+import remarkLinkCard from "remark-link-card";
 import sitemap from "@astrojs/sitemap";
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://www.katot.dev/",
+  site: "https://blog.katot.dev/",
   integrations: [
     tailwind({
       config: {
@@ -16,6 +18,7 @@ export default defineConfig({
     }),
     react(),
     sitemap(),
+    markdownIntegration(),
   ],
   markdown: {
     remarkPlugins: [
@@ -26,6 +29,7 @@ export default defineConfig({
           test: "Table of contents",
         },
       ],
+      remarkLinkCard,
     ],
     shikiConfig: {
       theme: "one-dark-pro",
